@@ -40,14 +40,17 @@ public class HomeController implements Initializable {
 
     protected SortedState sortedState;
 
+    private MovieRestClient movieRestClient;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.movieRestClient = new MovieRestClient();
         initializeState();
         initializeLayout();
     }
 
     public void initializeState() {
-        allMovies = Movie.initializeMovies();
+        allMovies = movieRestClient.getAllMovies();
         observableMovies.clear();
         observableMovies.addAll(allMovies); // add all movies to the observable list
         sortedState = SortedState.NONE;
