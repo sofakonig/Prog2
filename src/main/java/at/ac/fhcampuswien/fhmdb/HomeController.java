@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,12 @@ public class HomeController implements Initializable {
 
     @FXML
     public JFXComboBox genreComboBox;
+
+    @FXML
+    public JFXComboBox releaseYearBox;
+
+    @FXML
+    public JFXComboBox ratingBox;
 
     @FXML
     public JFXButton sortBtn;
@@ -64,6 +71,33 @@ public class HomeController implements Initializable {
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
         genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
         genreComboBox.setPromptText("Filter by Genre");
+
+
+        releaseYearBox.getItems().add("No filter");
+        int years = 1878; // laut google wurde der erste film 1878 veröffentlicht
+        LocalDate date = LocalDate.now();
+        while(years != (date.getYear() + 1)){
+            releaseYearBox.getItems().addAll(years);
+            years++;
+        }
+        releaseYearBox.setPromptText("Filter by Release Year");
+
+        ratingBox.getItems().add("No filter");
+        int ratings = 0;
+        while(ratings != 11){
+            ratingBox.getItems().addAll(ratings);
+            ratings++;
+        }
+        ratingBox.setPromptText("Filter by Rating");
+    }
+
+    public void setMovies(List<Movie> movies) {
+        allMovies = movies;
+    }
+
+    public void setMovieList(List<Movie> movies) {
+        observableMovies.clear();
+        observableMovies.addAll(movies);
     }
 
     public void sortMovies(){
@@ -131,10 +165,18 @@ public class HomeController implements Initializable {
     }
 
     public void searchBtnClicked(ActionEvent actionEvent) {
-        String searchQuery = searchField.getText().trim().toLowerCase();
-        Object genre = genreComboBox.getSelectionModel().getSelectedItem();
 
-        applyAllFilters(searchQuery, genre);
+        String searchQuery = searchField.getText().trim().toLowerCase();
+        Object genre = genreComboBox.getSelectionModel().getSelectedItem() == null ? null : genreComboBox.getSelectionModel().getSelectedItem();
+        Object releaseYear = releaseYearBox.getSelectionModel().getSelectedItem() == null ? null : releaseYearBox.getSelectionModel().getSelectedItem();
+        Object rating = ratingBox.getSelectionModel().getSelectedItem() == null ? null : ratingBox.getSelectionModel().getSelectedItem();
+
+        List<Movie> movies = movieRestClient.getByQuery(searchQuery, Genre.valueOf(genre.toString()), releaseYear.toString(), Double.parseDouble(rating.toString()));
+        setMovies(movies);
+        setMovieList(movies);
+
+
+        //applyAllFilters(searchQuery, genre);
         sortMovies(sortedState);
     }
 
