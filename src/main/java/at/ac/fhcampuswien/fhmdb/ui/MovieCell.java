@@ -8,6 +8,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
 import java.util.stream.Collectors;
 
 public class MovieCell extends ListCell<Movie> {
