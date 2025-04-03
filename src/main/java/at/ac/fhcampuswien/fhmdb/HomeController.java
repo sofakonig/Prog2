@@ -16,10 +16,7 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
@@ -46,6 +43,19 @@ public class HomeController implements Initializable {
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
+
+    public Set<Integer> extractReleaseYearsFromMovies(List<Movie> movies) {
+        return movies.stream()
+                .map(Movie::getReleaseYear)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Double> extractRatingsFromMovies(List<Movie> movies) {
+        return movies.stream()
+                .map(Movie::getRating)
+                .collect(Collectors.toSet());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(movieRestClient.getAllMovies());
@@ -63,17 +73,14 @@ public class HomeController implements Initializable {
         );
         genreComboBox.setPromptText("Filter by Genre");
 
-        int startYear = 1878;
-        int currentYear = LocalDate.now().getYear();
-        for (int year = startYear; year <= currentYear; year++) {
-            releaseYearBox.getItems().add(year);
-        }
         releaseYearBox.setPromptText("Filter by Release Year");
+        releaseYearBox.getItems().addAll(extractReleaseYearsFromMovies(observableMovies));
+        releaseYearBox.getItems().sort(Comparator.naturalOrder());
 
-        for (int r = 0; r <= 10; r++) {
-            ratingBox.getItems().add(r * 1.0);
-        }
         ratingBox.setPromptText("Filter by Rating");
+        ratingBox.setPromptText("Filter by Release Year");
+        ratingBox.getItems().addAll(extractRatingsFromMovies(observableMovies));
+        ratingBox.getItems().sort(Comparator.naturalOrder());
 
         searchBtn.setText("Search");
         searchBtn.setOnAction(event -> {
