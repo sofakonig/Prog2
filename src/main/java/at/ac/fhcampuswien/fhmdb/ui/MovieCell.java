@@ -80,7 +80,7 @@ public class MovieCell extends ListCell<Movie> {
             writers.setText("Writers: " + getItem().getWriters());
             rating.setText("Rating: " + getItem().getRating());
             director.setText("Director: " + getItem().getDirectors());
-            length.setText("Length: " + getItem().getLengthInMin() + " min");
+            length.setText("Length: " + getItem().getLengthInMinutes() + " min");
             setGraphic(layout);
 
             button.setOnMouseClicked(event -> {
