@@ -8,14 +8,12 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,19 +41,6 @@ public class HomeController implements Initializable {
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
-
-    public Set<Integer> extractReleaseYearsFromMovies(List<Movie> movies) {
-        return movies.stream()
-                .map(Movie::getReleaseYear)
-                .collect(Collectors.toSet());
-    }
-
-    public Set<Double> extractRatingsFromMovies(List<Movie> movies) {
-        return movies.stream()
-                .map(Movie::getRating)
-                .collect(Collectors.toSet());
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(movieRestClient.getAllMovies());
@@ -72,11 +57,11 @@ public class HomeController implements Initializable {
         genreComboBox.setPromptText("Filter by Genre");
 
         releaseYearBox.setPromptText("Filter by Release Year");
-        releaseYearBox.getItems().addAll(extractReleaseYearsFromMovies(observableMovies));
+        releaseYearBox.getItems().addAll(getReleaseYearsFromMovies(observableMovies));
         releaseYearBox.getItems().sort(Comparator.naturalOrder());
 
-        ratingBox.setPromptText("Filter by Rating");
-        ratingBox.getItems().addAll(extractRatingsFromMovies(observableMovies));
+        ratingBox.setPromptText("Filter from Rating");
+        ratingBox.getItems().addAll(getRatingsFromMovies(observableMovies));
         ratingBox.getItems().sort(Comparator.naturalOrder());
 
         searchBtn.setText("Search");
@@ -118,7 +103,19 @@ public class HomeController implements Initializable {
         sortedList.setComparator(Comparator.comparing(Movie::getTitle));
     }
 
-    String getMostPopularActor(List<Movie> movies) {
+    public Set<Integer> getReleaseYearsFromMovies(List<Movie> movies) {
+        return movies.stream()
+                .map(Movie::getReleaseYear)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Double> getRatingsFromMovies(List<Movie> movies) {
+        return movies.stream()
+                .map(Movie::getRating)
+                .collect(Collectors.toSet());
+    }
+
+    public String getMostPopularActor(List<Movie> movies) {
         // Stream über die Liste von Filmen starten
         return movies.stream()
                 // Jedes Movie-Objekt wird in seinen 'mainCast' (Hauptdarsteller) umgewandelt
@@ -135,7 +132,7 @@ public class HomeController implements Initializable {
                 .orElse(null);
     }
 
-    int getLongestMovieTitle(List<Movie> movies) {
+    public int getLongestMovieTitle(List<Movie> movies) {
         // Stream über die Liste der Filme starten
         return movies.stream()
                 // Verwandle jedes Movie-Objekt in die Länge des Titels
@@ -146,7 +143,7 @@ public class HomeController implements Initializable {
                 .orElse(0); // Falls keine Filme vorhanden sind oder alle Titel eine Länge von 0 haben, gebe 0 zurück
     }
 
-    long countMoviesFrom(List<Movie> movies, String director) {
+    public long countMoviesFrom(List<Movie> movies, String director) {
         // Stream über die Liste der Filme starten
         return movies.stream()
                 // Filtere alle Filme, deren Regisseur den angegebenen Namen enthält
@@ -155,7 +152,7 @@ public class HomeController implements Initializable {
                 .count();
     }
 
-    List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear) {
+    public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear) {
         // Stream über die Liste der Filme starten
         return movies.stream()
                 // Filtere alle Filme, deren Erscheinungsjahr zwischen startYear und endYear liegt (einschließlich)
