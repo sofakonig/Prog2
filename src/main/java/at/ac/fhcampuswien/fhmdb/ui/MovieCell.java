@@ -14,6 +14,8 @@ import javafx.scene.text.Font;
 import java.util.stream.Collectors;
 
 public class MovieCell extends ListCell<Movie> {
+    private static final String WHITE_TEXT = "text-white";
+    private static final String YELLOW_TEXT = "text-yellow";
     private final Label title = new Label();
     private final Label detail = new Label();
     private final Label genre = new Label();
@@ -21,15 +23,11 @@ public class MovieCell extends ListCell<Movie> {
     private final Label releaseYear = new Label();
     private final Label mainCast = new Label();
     private final Label writers = new Label();
-
     private final Label length = new Label();
     private final Label director = new Label();
     private final JFXButton button = new JFXButton("Show Details");
     private final VBox layout = new VBox(title, detail, genre, button);
     private boolean noDetails = true;
-
-    private static final String WHITE_TEXT = "text-white";
-    private static final String YELLOW_TEXT = "text-yellow";
 
     @Override
     protected void updateItem(Movie movie, boolean empty) {

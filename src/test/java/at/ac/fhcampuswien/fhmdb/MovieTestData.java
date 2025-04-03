@@ -18,9 +18,9 @@ public class MovieTestData {
                 90,
                 8.8,
                 Arrays.asList(Genre.ACTION, Genre.HORROR),
-                Arrays.asList("Christopher Nolan"),
+                List.of("Christopher Nolan"),
                 Arrays.asList("Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"),
-                Arrays.asList("Christopher Nolan")
+                List.of("Christopher Nolan")
         );
 
         Movie movie2 = new Movie(
@@ -32,9 +32,9 @@ public class MovieTestData {
                 100,
                 8.7,
                 Arrays.asList(Genre.ACTION, Genre.ANIMATION),
-                Arrays.asList("The Wachowskis"),
+                List.of("The Wachowskis"),
                 Arrays.asList("Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"),
-                Arrays.asList("The Wachowskis")
+                List.of("The Wachowskis")
         );
 
         Movie movie3 = new Movie(
@@ -45,8 +45,8 @@ public class MovieTestData {
                 "http://example.com/shawshank.jpg",
                 100,
                 9.3,
-                Arrays.asList(Genre.DRAMA),
-                Arrays.asList("Frank Darabont"),
+                List.of(Genre.DRAMA),
+                List.of("Frank Darabont"),
                 Arrays.asList("Tim Robbins", "Morgan Freeman"),
                 Arrays.asList("Stephen King", "Frank Darabont")
         );
@@ -60,7 +60,7 @@ public class MovieTestData {
                 120,
                 8.9,
                 Arrays.asList(Genre.DRAMA, Genre.CRIME),
-                Arrays.asList("Quentin Tarantino"),
+                List.of("Quentin Tarantino"),
                 Arrays.asList("John Travolta", "Samuel L. Jackson", "Uma Thurman"),
                 Arrays.asList("Quentin Tarantino", "Roger Avary")
         );
@@ -74,7 +74,7 @@ public class MovieTestData {
                 135,
                 9.2,
                 Arrays.asList(Genre.DRAMA, Genre.CRIME),
-                Arrays.asList("Francis Ford Coppola"),
+                List.of("Francis Ford Coppola"),
                 Arrays.asList("Marlon Brando", "Al Pacino", "James Caan"),
                 Arrays.asList("Mario Puzo", "Francis Ford Coppola")
         );
@@ -88,7 +88,7 @@ public class MovieTestData {
                 140,
                 8.6,
                 Arrays.asList(Genre.ACTION, Genre.DRAMA, Genre.DOCUMENTARY),
-                Arrays.asList("Christopher Nolan"),
+                List.of("Christopher Nolan"),
                 Arrays.asList("Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"),
                 Arrays.asList("Jonathan Nolan", "Christopher Nolan")
         );
@@ -101,8 +101,8 @@ public class MovieTestData {
                 "http://example.com/fightclub.jpg",
                 80,
                 8.8,
-                Arrays.asList(Genre.DRAMA),
-                Arrays.asList("David Fincher"),
+                List.of(Genre.DRAMA),
+                List.of("David Fincher"),
                 Arrays.asList("Brad Pitt", "Edward Norton"),
                 Arrays.asList("Chuck Palahniuk", "Jim Uhls")
         );
@@ -116,7 +116,7 @@ public class MovieTestData {
                 90,
                 8.8,
                 Arrays.asList(Genre.DRAMA, Genre.ROMANCE),
-                Arrays.asList("Robert Zemeckis"),
+                List.of("Robert Zemeckis"),
                 Arrays.asList("Tom Hanks", "Robin Wright"),
                 Arrays.asList("Winston Groom", "Eric Roth")
         );
@@ -130,7 +130,7 @@ public class MovieTestData {
                 70,
                 9.0,
                 Arrays.asList(Genre.ACTION, Genre.DRAMA),
-                Arrays.asList("Christopher Nolan"),
+                List.of("Christopher Nolan"),
                 Arrays.asList("Christian Bale", "Heath Ledger", "Aaron Eckhart"),
                 Arrays.asList("Jonathan Nolan", "Christopher Nolan")
         );
@@ -144,7 +144,7 @@ public class MovieTestData {
                 90,
                 8.9,
                 Arrays.asList(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY),
-                Arrays.asList("Peter Jackson"),
+                List.of("Peter Jackson"),
                 Arrays.asList("Elijah Wood", "Viggo Mortensen", "Ian McKellen"),
                 Arrays.asList("J.R.R. Tolkien", "Fran Walsh", "Philippa Boyens")
         );
@@ -158,7 +158,7 @@ public class MovieTestData {
                 200,
                 8.5,
                 Arrays.asList(Genre.ACTION, Genre.DRAMA),
-                Arrays.asList("Ridley Scott"),
+                List.of("Ridley Scott"),
                 Arrays.asList("Russell Crowe", "Joaquin Phoenix"),
                 Arrays.asList("David Franzoni", "John Logan", "William Nicholson")
         );
@@ -172,7 +172,7 @@ public class MovieTestData {
                 190,
                 8.5,
                 Arrays.asList(Genre.DRAMA, Genre.MYSTERY),
-                Arrays.asList("Christopher Nolan"),
+                List.of("Christopher Nolan"),
                 Arrays.asList("Christian Bale", "Hugh Jackman", "Scarlett Johansson"),
                 Arrays.asList("Jonathan Nolan", "Christopher Nolan")
         );

@@ -16,14 +16,12 @@ import java.util.List;
 // Klasse MovieRestClient stellt die Kommunikation mit einer API für Filme sicher.
 public class MovieRestClient {
 
-    // Basis-URL der API (kann später geändert werden).
-    private String baseUrl = "https://prog2.fh-campuswien.ac.at";
-
     // OkHttpClient wird für HTTP-Anfragen verwendet.
     private final OkHttpClient client;
-
     // Gson wird zum Konvertieren von JSON in Java-Objekte und umgekehrt verwendet.
     private final Gson gson;
+    // Basis-URL der API (kann später geändert werden).
+    private String baseUrl = "https://prog2.fh-campuswien.ac.at";
 
     // Standardkonstruktor, der den HTTP-Client und Gson initialisiert.
     public MovieRestClient() {
@@ -60,7 +58,8 @@ public class MovieRestClient {
                 .build();
 
         // Definiert den Typ der Rückgabe als eine Liste von Movie-Objekten.
-        Type listType = new TypeToken<List<Movie>>() {}.getType();
+        Type listType = new TypeToken<List<Movie>>() {
+        }.getType();
 
         // Führt die Anfrage aus und gibt die Liste von Filmen zurück.
         return executeRequest(request, listType);
@@ -113,7 +112,8 @@ public class MovieRestClient {
                 .build();
 
         // Definiert den Typ der Rückgabe als eine Liste von Movie-Objekten.
-        Type listType = new TypeToken<List<Movie>>() {}.getType();
+        Type listType = new TypeToken<List<Movie>>() {
+        }.getType();
 
         // Führt die Anfrage aus und gibt die Liste von Filmen basierend auf der Suchabfrage zurück.
         return executeRequest(request, listType);

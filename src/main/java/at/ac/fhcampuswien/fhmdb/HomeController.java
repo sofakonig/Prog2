@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
 
+    private final MovieRestClient movieRestClient = new MovieRestClient();
+    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
     @FXML
     public JFXButton searchBtn;
     @FXML
@@ -35,11 +37,7 @@ public class HomeController implements Initializable {
     public JFXButton sortBtn;
     @FXML
     public JFXButton clearBtn;
-
     private boolean isAscending = false;
-    private final MovieRestClient movieRestClient = new MovieRestClient();
-
-    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -122,9 +120,9 @@ public class HomeController implements Initializable {
                 // Konvertiere das Ergebnis in einen Stream von Entry-Sets (Key-Value Paare)
                 .entrySet().stream()
                 // Finde das Entry (Schlüssel-Wert Paar) mit dem höchsten Wert (d.h. die häufigste Häufigkeit)
-                .max(Comparator.comparingLong(entry -> entry.getValue()))
+                .max(Comparator.comparingLong(Map.Entry::getValue))
                 // Wenn ein solcher Eintrag gefunden wurde, gibt der Stream den Schauspieler (Key) zurück
-                .map(entry -> entry.getKey())
+                .map(Map.Entry::getKey)
                 // Falls kein Schauspieler gefunden wurde (z.B. bei einer leeren Liste), gibt null zurück
                 .orElse(null);
     }

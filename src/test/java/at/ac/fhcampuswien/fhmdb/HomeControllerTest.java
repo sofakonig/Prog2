@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HomeControllerTest {
 
-    private static HomeController homeController;
     private static final List<Movie> movies = MovieTestData.getTestMovies();
+    private static HomeController homeController;
 
     @BeforeAll
     public static void init() {
@@ -37,7 +37,6 @@ class HomeControllerTest {
         Assertions.assertTrue(ratingsFromMovies.contains(8.6));
         Assertions.assertTrue(ratingsFromMovies.contains(9.2));
         Assertions.assertFalse(ratingsFromMovies.contains(4.2));
-
     }
 
     @Test
@@ -46,7 +45,6 @@ class HomeControllerTest {
         assertEquals(4, count);
     }
 
-    // test für getMoviesBetweenYears
     @Test
     public void testGetMoviesBetweenYears() {
         List<Movie> moviesBetweenYears = homeController.getMoviesBetweenYears(movies, 1990, 2000);
