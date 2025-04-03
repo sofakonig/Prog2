@@ -32,15 +32,26 @@ class HomeControllerTest {
     }
 
     @Test
-    public void testGetMostPopularActor(){
+    public void testGetMostPopularActor() {
         String popularActor = homeController.getMostPopularActor(movies);
         assertEquals("Christian Bale", popularActor);
     }
 
     @Test
-    public void testGetLongestMovieTitle(){
+    public void testGetLongestMovieTitle() {
 
     }
 
+    @Test
+    public void testCountMoviesFrom() {
+        long countMoviesFrom = homeController.countMoviesFrom(movies, "Inception");
+
+    }
+
+    @Test
+    public void testGetMoviesBetweenYears() {
+        List<Movie> result = homeController.getMoviesBetweenYears(movies, 1900, 2000);
+        assertEquals(7, result.size());
+    }
 
 }
