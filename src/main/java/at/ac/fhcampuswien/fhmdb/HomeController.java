@@ -67,12 +67,9 @@ public class HomeController implements Initializable {
         searchBtn.setText("Search");
         searchBtn.setOnAction(event -> {
             String query = searchField.getText() != null ? searchField.getText() : "";
-            String selectedGenreStr = genreComboBox.getSelectionModel().getSelectedItem();
-            Genre selectedGenre = selectedGenreStr == null ? null : Genre.valueOf(selectedGenreStr);
-            Integer selectedYear = releaseYearBox.getSelectionModel().getSelectedItem();
-            int releaseYear = selectedYear == null ? 0 : selectedYear;
-            Double selectedRating = ratingBox.getSelectionModel().getSelectedItem();
-            double rating = selectedRating == null ? 0.0 : selectedRating;
+            Genre selectedGenre = genreComboBox.getSelectionModel().getSelectedItem() == null ? null : Genre.valueOf(genreComboBox.getSelectionModel().getSelectedItem());
+            int releaseYear = releaseYearBox.getSelectionModel().getSelectedItem() == null ? 0 : releaseYearBox.getSelectionModel().getSelectedItem();
+            double rating = ratingBox.getSelectionModel().getSelectedItem() == null ? 0.0 : ratingBox.getSelectionModel().getSelectedItem();
 
             List<Movie> movies = movieRestClient.getByQuery(query, selectedGenre, releaseYear, rating);
             observableMovies.setAll(movies);
