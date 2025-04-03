@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MovieRestClient {
 
-    private static final String BASE_URL = "https://prog2.fh-campuswien.ac.at";
+    private String baseUrl = "https://prog2.fh-campuswien.ac.at";
     private final OkHttpClient client;
     private final Gson gson;
 
@@ -24,9 +24,14 @@ public class MovieRestClient {
         this.gson = new Gson();
     }
 
+    public MovieRestClient(String url) {
+        this();
+        this.baseUrl = url;
+    }
+
     public List<Movie> getAllMovies() {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/movies")
+                .url(baseUrl + "/movies")
                 .addHeader("User-Agent", "Mozilla")
                 .build();
 
@@ -45,7 +50,7 @@ public class MovieRestClient {
 
     public Movie getById(String id) {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/movies/" + id)
+                .url(baseUrl + "/movies/" + id)
                 .addHeader("User-Agent", "Mozilla")
                 .build();
 
@@ -61,7 +66,7 @@ public class MovieRestClient {
     }
 
     public List<Movie> getByQuery(String query, Genre genre, String releaseYear, double ratingFrom) {
-        HttpUrl url = HttpUrl.parse(BASE_URL + "/movies")
+        HttpUrl url = HttpUrl.parse(baseUrl + "/movies")
                 .newBuilder()
                 .addQueryParameter("query", query)
                 .addQueryParameter("genre", genre.name())
