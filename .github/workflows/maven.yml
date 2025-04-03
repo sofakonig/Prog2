@@ -12,6 +12,9 @@ on:
         description: 'Next snapshot version (e.g. 1.0.1-SNAPSHOT)'
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   build-develop:
     if: github.event_name == 'push'
