@@ -76,7 +76,6 @@ public class HomeController implements Initializable {
         releaseYearBox.getItems().sort(Comparator.naturalOrder());
 
         ratingBox.setPromptText("Filter by Rating");
-        ratingBox.setPromptText("Filter by Release Year");
         ratingBox.getItems().addAll(extractRatingsFromMovies(observableMovies));
         ratingBox.getItems().sort(Comparator.naturalOrder());
 
