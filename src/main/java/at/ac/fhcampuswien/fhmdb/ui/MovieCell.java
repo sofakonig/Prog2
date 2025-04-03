@@ -21,6 +21,9 @@ public class MovieCell extends ListCell<Movie> {
     private final Label releaseYear = new Label();
     private final Label mainCast = new Label();
     private final Label writers = new Label();
+
+    private final Label length = new Label();
+    private final Label director = new Label();
     private final JFXButton button = new JFXButton("Show Details");
     private final VBox layout = new VBox(title, detail, genre, button);
     private boolean noDetails = true;
@@ -59,6 +62,8 @@ public class MovieCell extends ListCell<Movie> {
             releaseYear.getStyleClass().add(WHITE_TEXT);
             mainCast.getStyleClass().add(WHITE_TEXT);
             writers.getStyleClass().add(WHITE_TEXT);
+            length.getStyleClass().add(WHITE_TEXT);
+            director.getStyleClass().add(WHITE_TEXT);
             button.getStyleClass().add(WHITE_TEXT);
             genre.setStyle("-fx-font-style: italic");
             layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
@@ -74,19 +79,20 @@ public class MovieCell extends ListCell<Movie> {
             mainCast.setText("Main Cast: " + getItem().getMainCast());
             writers.setText("Writers: " + getItem().getWriters());
             rating.setText("Rating: " + getItem().getRating());
+            director.setText("Director: " + getItem().getDirectors());
+            length.setText("Length: " + getItem().getLengthInMin() + " min");
             setGraphic(layout);
 
             button.setOnMouseClicked(event -> {
                 if (noDetails) {
-                    layout.getChildren().addAll(rating, releaseYear, mainCast, writers);
+                    layout.getChildren().addAll(rating, releaseYear, length, director, mainCast, writers);
                     button.setText("Hide Details");
                     noDetails = false;
                 } else {
-                    layout.getChildren().removeAll(rating, releaseYear, mainCast, writers);
+                    layout.getChildren().removeAll(rating, releaseYear, length, director, mainCast, writers);
                     button.setText("Show Details");
                     noDetails = true;
                 }
-
             });
         }
     }
