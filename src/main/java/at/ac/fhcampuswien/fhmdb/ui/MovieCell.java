@@ -79,6 +79,8 @@ public class MovieCell extends ListCell<Movie> {
             mainCast.setText("Main Cast: " + getItem().getMainCast());
             writers.setText("Writers: " + getItem().getWriters());
             rating.setText("Rating: " + getItem().getRating());
+            director.setText("Director: " + getItem().getDirectors());
+            length.setText("Length: " + getItem().getLengthInMin() + " min");
             setGraphic(layout);
 
             button.setOnMouseClicked(event -> {
