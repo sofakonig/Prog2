@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<VBox prefHeight="331.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="331.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/15.0.1"
       fx:controller="at.ac.fhcampuswien.fhmdb.HomeController">
     <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="347.0" spacing="20.0"
           style="-fx-background-color: black;">
@@ -32,13 +32,17 @@
         <padding>
             <Insets bottom="20.0" left="10.0" top="20.0"/>
         </padding>
-        <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Sort"
-                   onAction="#sortBtnClicked"/>
+        <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Sort (asc)"/>
         <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search FHMDb"/>
         <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box"
                      stylesheets="@styles.css"/>
-        <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Filter"
-                   onAction="#searchBtnClicked"/>
+        <JFXComboBox fx:id="releaseYearBox" focusColor="#f5c518" styleClass="filter-combo-box"
+                     stylesheets="@styles.css"/>
+        <JFXComboBox fx:id="ratingBox" focusColor="#f5c518" styleClass="filter-combo-box"
+                     stylesheets="@styles.css"/>
+        <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Filter"/>
+        <JFXButton fx:id="clearBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Clear"/>
     </HBox>
-    <JFXListView fx:id="movieListView" stylesheets="@styles.css" VBox.vgrow="ALWAYS"/>
+    <JFXListView fx:id="movieListView" styleClass="background-black" style="-fx-background-color: black;"
+                 stylesheets="@styles.css" VBox.vgrow="ALWAYS"/>
 </VBox>

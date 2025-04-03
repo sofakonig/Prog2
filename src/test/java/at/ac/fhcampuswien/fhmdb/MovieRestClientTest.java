@@ -63,7 +63,7 @@ public class MovieRestClientTest {
                 .setResponseCode(200)
                 .setBody(jsonResponse));
 
-        List<Movie> movies = movieRestClient.getByQuery("Movie", Genre.DRAMA, "2019", 7.0);
+        List<Movie> movies = movieRestClient.getByQuery("Movie", Genre.DRAMA, 2019, 7.0);
         assertNotNull(movies);
         assertFalse(movies.isEmpty());
         assertEquals("Movie2", movies.get(0).getTitle());

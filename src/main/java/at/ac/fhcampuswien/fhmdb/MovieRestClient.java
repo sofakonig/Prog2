@@ -65,14 +65,22 @@ public class MovieRestClient {
         }
     }
 
-    public List<Movie> getByQuery(String query, Genre genre, String releaseYear, double ratingFrom) {
-        HttpUrl url = HttpUrl.parse(baseUrl + "/movies")
-                .newBuilder()
-                .addQueryParameter("query", query)
-                .addQueryParameter("genre", genre.name())
-                .addQueryParameter("releaseYear", releaseYear)
-                .addQueryParameter("ratingFrom", String.valueOf(ratingFrom))
-                .build();
+    public List<Movie> getByQuery(String query, Genre genre, int releaseYear, double ratingFrom) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl + "/movies").newBuilder();
+        if (query != null && !query.trim().isEmpty()) {
+            urlBuilder.addQueryParameter("query", query);
+        }
+        if (genre != null) {
+            urlBuilder.addQueryParameter("genre", genre.name());
+        }
+        if (releaseYear != 0) {
+            urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
+        }
+        if (ratingFrom > 0) {
+            urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
+        }
+
+        HttpUrl url = urlBuilder.build();
 
         Request request = new Request.Builder()
                 .addHeader("User-Agent", "Mozilla")
