@@ -19,8 +19,6 @@ public class MovieCell extends ListCell<Movie> {
     private final Label genre = new Label();
     private final Label rating = new Label();
     private final Label releaseYear = new Label();
-    private final Label length = new Label();
-    private final Label director = new Label();
     private final Label mainCast = new Label();
     private final Label writers = new Label();
     private final JFXButton button = new JFXButton("Show Details");
@@ -59,10 +57,9 @@ public class MovieCell extends ListCell<Movie> {
             genre.getStyleClass().add(WHITE_TEXT);
             rating.getStyleClass().add(WHITE_TEXT);
             releaseYear.getStyleClass().add(WHITE_TEXT);
-            length.getStyleClass().add(WHITE_TEXT);
-            director.getStyleClass().add(WHITE_TEXT);
             mainCast.getStyleClass().add(WHITE_TEXT);
             writers.getStyleClass().add(WHITE_TEXT);
+            button.getStyleClass().add(WHITE_TEXT);
             genre.setStyle("-fx-font-style: italic");
             layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
@@ -81,11 +78,11 @@ public class MovieCell extends ListCell<Movie> {
 
             button.setOnMouseClicked(event -> {
                 if (noDetails) {
-                    layout.getChildren().addAll(rating, releaseYear, length, director, mainCast, writers);
+                    layout.getChildren().addAll(rating, releaseYear, mainCast, writers);
                     button.setText("Hide Details");
                     noDetails = false;
                 } else {
-                    layout.getChildren().removeAll(rating, releaseYear, length, director, mainCast, writers);
+                    layout.getChildren().removeAll(rating, releaseYear, mainCast, writers);
                     button.setText("Show Details");
                     noDetails = true;
                 }
