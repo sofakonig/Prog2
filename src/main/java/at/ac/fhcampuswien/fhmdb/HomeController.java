@@ -49,9 +49,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(movieRestClient.getAllMovies());
-
-        FilteredList<Movie> filteredMovies = new FilteredList<>(observableMovies, movie -> true);
-        SortedList<Movie> sortedMovies = new SortedList<>(filteredMovies);
+        SortedList<Movie> sortedMovies = new SortedList<>(observableMovies);
 
         movieListView.setItems(sortedMovies);
         movieListView.setCellFactory(movieListView -> new MovieCell());
@@ -89,7 +87,7 @@ public class HomeController implements Initializable {
             observableMovies.setAll(movies);
         });
         clearBtn.setText("Clear");
-        clearBtn.setOnAction(event -> clearFilters(filteredMovies, sortedMovies));
+        clearBtn.setOnAction(event -> clearFilters(observableMovies, sortedMovies));
 
         sortBtn.setOnAction(actionEvent -> {
             if (isAscending) {
@@ -103,18 +101,17 @@ public class HomeController implements Initializable {
         });
     }
 
-    private void clearFilters(FilteredList<Movie> filteredList, SortedList<Movie> sortedList) {
+    private void clearFilters(ObservableList<Movie> observableMovies, SortedList<Movie> sortedList) {
         searchField.clear();
         genreComboBox.getSelectionModel().clearSelection();
         releaseYearBox.getSelectionModel().clearSelection();
         ratingBox.getSelectionModel().clearSelection();
-        filteredList.setPredicate(movie -> true);
+        observableMovies.setAll(movieRestClient.getAllMovies());
         isAscending = true;
         sortBtn.setText("Sort (asc)");
         sortedList.setComparator(Comparator.comparing(Movie::getTitle));
     }
 
-    // Methoden mit Java Streams (wie bereits implementiert)
     String getMostPopularActor(List<Movie> movies) {
         return movies.stream()
                 .flatMap(movie -> movie.getMainCast().stream())
