@@ -1,40 +1,21 @@
-## PRG2 - Exercise 1 Example Solution
+# PRG2 - Simple JavaFX Client for Movies
+[![prog2 pipeline](https://github.com/sofakonig/Prog2/actions/workflows/maven.yml/badge.svg)](https://github.com/sofakonig/Prog2/actions/workflows/maven.yml)
 
-This repository is an example solution for Exercise 1 in PRG2.
+This exercise demonstrates how to build a **JavaFX** application that retrieves and displays movie data from a REST API. You’ll practice:
 
-### Start the application
+- Making HTTP calls (e.g., using Java’s `OkHttp`)
+- Parsing JSON responses (e.g., with Gson)
+- Building a basic UI with JavaFX (e.g., a text field, a search button, and a results list)
 
-Start the application by either running the `main` method in the `FhmdbApplication` class or by running
-`mvn clean javafx:run` in Maven.
+## Requirements
 
-Note: If you run the application with `mvn clean javafx:run` you may face a incompatible version error (
-`java.lang.module.InvalidModuleDescriptorException: Unsupported major.minor version XXX`). If so, check the version of
-your system Java installation (Environment Variables).
-Maven uses the default system Java installation. If you have multiple Java installations, you can set the Java version
-for Maven by adding the following to your
-`pom.xml`:
+- **Java 17** (or higher)
+- **JavaFX**
+- A **public movie API** (e.g., [OMDb](https://www.omdbapi.com/) or [TMDB](https://developers.themoviedb.org/3))
+- **Maven** for dependency management
 
-```xml
+## Setup & How to Run
 
-<build>
-    ...
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.10.1</version>
-            <configuration>
-                <source>17</source>
-                // change to your system version here
-                <target>17</target>
-                // and here
-            </configuration>
-        </plugin>
-        ...
-    </plugins>
-</build>
-```
-
-### Run the tests
-
-Run automated tests by running `mvn clean test` command in Maven.
+1. **Clone or Download** this project:
+   ```bash
+   git clone https://github.com/your-username/my-movie-client.git
