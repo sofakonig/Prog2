@@ -111,48 +111,31 @@ public class HomeController implements Initializable {
     }
 
     public String getMostPopularActor(List<Movie> movies) {
-        // Stream über die Liste von Filmen starten
         return movies.stream()
-                // Jedes Movie-Objekt wird in seinen 'mainCast' (Hauptdarsteller) umgewandelt
                 .flatMap(movie -> movie.getMainCast().stream())
-                // Gruppiere alle Schauspieler nach ihrem Namen und zähle, wie oft sie auftreten
                 .collect(Collectors.groupingBy(actor -> actor, Collectors.counting()))
-                // Konvertiere das Ergebnis in einen Stream von Entry-Sets (Key-Value Paare)
                 .entrySet().stream()
-                // Finde das Entry (Schlüssel-Wert Paar) mit dem höchsten Wert (d.h. die häufigste Häufigkeit)
                 .max(Comparator.comparingLong(Map.Entry::getValue))
-                // Wenn ein solcher Eintrag gefunden wurde, gibt der Stream den Schauspieler (Key) zurück
                 .map(Map.Entry::getKey)
-                // Falls kein Schauspieler gefunden wurde (z.B. bei einer leeren Liste), gibt null zurück
                 .orElse(null);
     }
 
     public int getLongestMovieTitle(List<Movie> movies) {
-        // Stream über die Liste der Filme starten
         return movies.stream()
-                // Verwandle jedes Movie-Objekt in die Länge des Titels
                 .mapToInt(movie -> movie.getTitle().length())
-                // Finde den maximalen Wert (also die längste Titel-Länge)
                 .max()
-                // Falls ein Titel gefunden wurde, gib die maximale Länge zurück
-                .orElse(0); // Falls keine Filme vorhanden sind oder alle Titel eine Länge von 0 haben, gebe 0 zurück
+                .orElse(0);
     }
 
     public long countMoviesFrom(List<Movie> movies, String director) {
-        // Stream über die Liste der Filme starten
         return movies.stream()
-                // Filtere alle Filme, deren Regisseur den angegebenen Namen enthält
                 .filter(movie -> movie.getDirectors().contains(director))
-                // Zähle, wie viele Filme den angegebenen Regisseur enthalten
                 .count();
     }
 
     public List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear) {
-        // Stream über die Liste der Filme starten
         return movies.stream()
-                // Filtere alle Filme, deren Erscheinungsjahr zwischen startYear und endYear liegt (einschließlich)
                 .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
-                // Sammle die gefilterten Filme in einer neuen Liste und gebe diese zurück
                 .collect(Collectors.toList());
     }
 }
