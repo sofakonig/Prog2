@@ -29,23 +29,25 @@ public class MovieRestClient {
         this.baseUrl = url;
     }
 
+    private <T> T executeRequest(Request request, Type type) {
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                return gson.fromJson(response.body().string(), type);
+            } else {
+                throw new IOException("Request failed: " + response);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Movie> getAllMovies() {
         Request request = new Request.Builder()
                 .url(baseUrl + "/movies")
                 .addHeader("User-Agent", "Mozilla")
                 .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                Type listType = new TypeToken<List<Movie>>() {
-                }.getType();
-                return gson.fromJson(response.body().string(), listType);
-            } else {
-                throw new IOException("Unexpected response: " + response);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Type listType = new TypeToken<List<Movie>>() {}.getType();
+        return executeRequest(request, listType);
     }
 
     public Movie getById(String id) {
@@ -53,16 +55,7 @@ public class MovieRestClient {
                 .url(baseUrl + "/movies/" + id)
                 .addHeader("User-Agent", "Mozilla")
                 .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                return gson.fromJson(response.body().string(), Movie.class);
-            } else {
-                throw new IOException("Movie not found: " + response);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return executeRequest(request, Movie.class);
     }
 
     public List<Movie> getByQuery(String query, Genre genre, int releaseYear, double ratingFrom) {
@@ -79,7 +72,6 @@ public class MovieRestClient {
         if (ratingFrom > 0) {
             urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
         }
-
         HttpUrl url = urlBuilder.build();
 
         Request request = new Request.Builder()
@@ -87,16 +79,7 @@ public class MovieRestClient {
                 .url(url)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                Type listType = new TypeToken<List<Movie>>() {
-                }.getType();
-                return gson.fromJson(response.body().string(), listType);
-            } else {
-                throw new IOException("Query failed: " + response);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Type listType = new TypeToken<List<Movie>>() {}.getType();
+        return executeRequest(request, listType);
     }
 }
