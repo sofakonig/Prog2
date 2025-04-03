@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.MovieTestData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

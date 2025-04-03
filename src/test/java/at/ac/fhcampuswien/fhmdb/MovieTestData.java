@@ -1,4 +1,7 @@
-package at.ac.fhcampuswien.fhmdb.models;
+package at.ac.fhcampuswien.fhmdb;
+
+import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 
 import java.util.Arrays;
 import java.util.List;
