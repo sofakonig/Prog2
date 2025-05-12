@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.repository;
 
 import at.ac.fhcampuswien.fhmdb.database.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.database.DatabaseManager;
+import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
 import com.j256.ormlite.dao.Dao;
 
@@ -27,20 +28,22 @@ public class WatchlistRepository {
         }
     }
 
-    public void add(String apiId) throws DatabaseException {
+    public void add(MovieEntity movieEntity) throws DatabaseException {
         try {
-            if (dao.queryForEq("apiId", apiId).isEmpty()) {
-                dao.create(new WatchlistMovieEntity(apiId));
+            if (dao.queryForEq("movie_id", movieEntity.getId()).isEmpty()) {
+                dao.create(new WatchlistMovieEntity(movieEntity));
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error adding to watchlist", e);
         }
     }
 
-    public void remove(String apiId) throws DatabaseException {
+    public void remove(MovieEntity movieEntity) throws DatabaseException {
         try {
-            List<WatchlistMovieEntity> list = dao.queryForEq("apiId", apiId);
-            for (WatchlistMovieEntity ent : list) dao.delete(ent);
+            List<WatchlistMovieEntity> list = dao.queryForEq("movie_id", movieEntity.getId());
+            for (WatchlistMovieEntity ent : list) {
+                dao.delete(ent);
+            }
         } catch (SQLException e) {
             throw new DatabaseException("Error removing from watchlist", e);
         }

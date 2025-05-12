@@ -17,14 +17,23 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class WatchlistController implements Initializable {
 
+    private final ObservableList<MovieEntity> observableWatchlist = FXCollections.observableArrayList();
     @FXML
     private JFXListView<MovieEntity> watchlistView;
-
     private WatchlistRepository watchlistRepo;
-    private final ObservableList<MovieEntity> observableWatchlist = FXCollections.observableArrayList();
+    private final ClickEventHandler<MovieEntity> onRemoveFromWatchlistClicked = movie -> {
+        try {
+            watchlistRepo.remove(movie);
+            observableWatchlist.remove(movie);
+            new UserDialog("Erfolg", "'" + movie.getTitle() + "' wurde aus der Watchlist entfernt").show();
+        } catch (DatabaseException e) {
+            new UserDialog("Datenbankfehler", "Konnte Film nicht entfernen").show();
+        }
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -33,22 +42,14 @@ public class WatchlistController implements Initializable {
             watchlistView.setPlaceholder(new Label("Watchlist is empty"));
             watchlistView.setItems(observableWatchlist);
             watchlistView.setCellFactory(list -> new WatchlistCell(onRemoveFromWatchlistClicked));
-            List<WatchlistMovieEntity> movies = watchlistRepo.getAll();
-            // observableWatchlist.setAll(movies);
+            List<WatchlistMovieEntity> watchlistEntities = watchlistRepo.getAll();
+            List<MovieEntity> movies = watchlistEntities.stream()
+                    .map(WatchlistMovieEntity::getMovie)
+                    .collect(Collectors.toList());
+            observableWatchlist.setAll(movies);
+
         } catch (DatabaseException e) {
             new UserDialog("Datenbankfehler", "Konnte Watchlist nicht laden").show();
         }
     }
-
-    private final ClickEventHandler<MovieEntity> onRemoveFromWatchlistClicked = movie -> {
-        try {
-            watchlistRepo.remove(movie.getApiId());
-            observableWatchlist.remove(movie);
-            new UserDialog("Erfolg", "'" + movie.getTitle() + "' wurde aus der Watchlist entfernt").show();
-        } catch (DatabaseException e) {
-            new UserDialog("Datenbankfehler", "Konnte Film nicht entfernen").show();
-        }
-    };
-
-
 }

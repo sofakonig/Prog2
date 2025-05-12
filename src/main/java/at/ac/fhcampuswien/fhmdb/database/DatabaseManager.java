@@ -30,6 +30,13 @@ public class DatabaseManager {
         }
     }
 
+    public static DatabaseManager getInstance() throws DatabaseException {
+        if (instance == null) {
+            instance = new DatabaseManager();
+        }
+        return instance;
+    }
+
     public void createTables() throws SQLException {
         TableUtils.createTableIfNotExists(conn, MovieEntity.class);
         TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
@@ -47,12 +54,5 @@ public class DatabaseManager {
         if (conn != null) {
             conn.closeQuietly();
         }
-    }
-
-    public static DatabaseManager getInstance() throws DatabaseException {
-        if (instance == null) {
-            instance = new DatabaseManager();
-        }
-        return instance;
     }
 }

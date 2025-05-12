@@ -60,6 +60,47 @@ public class MovieEntity {
         this.rating = rating;
     }
 
+    public static List<MovieEntity> fromMovies(List<Movie> movies) {
+        return movies.stream().map(m ->
+                new MovieEntity(
+                        m.getId(),
+                        m.getTitle(),
+                        m.getDescription(),
+                        genresToString(m.getGenres()),
+                        m.getReleaseYear(),
+                        m.getImgUrl(),
+                        m.getLengthInMinutes(),
+                        m.getRating()
+                )
+        ).collect(Collectors.toList());
+    }
+
+    public static String genresToString(List<Genre> genres) {
+        return genres.stream()
+                .map(Enum::name)
+                .collect(Collectors.joining(","));
+    }
+
+    public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
+        if (movieEntities == null || movieEntities.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Movie> movies = new ArrayList<>(movieEntities.size());
+        for (MovieEntity e : movieEntities) {
+            movies.add(new Movie(
+                    e.getApiId(),
+                    e.getTitle(),
+                    e.getReleaseYear(),
+                    e.getDescription(),
+                    e.getImgUrl(),
+                    e.getLengthInMinutes(),
+                    e.getRating(),
+                    Genre.mapGenres(e.getGenres())
+            ));
+        }
+        return movies;
+    }
+
     public long getId() {
         return id;
     }
@@ -130,46 +171,5 @@ public class MovieEntity {
 
     public void setRating(double rating) {
         this.rating = rating;
-    }
-
-    public static List<MovieEntity> fromMovies(List<Movie> movies) {
-        return movies.stream().map(m ->
-                new MovieEntity(
-                        m.getId(),
-                        m.getTitle(),
-                        m.getDescription(),
-                        genresToString(m.getGenres()),
-                        m.getReleaseYear(),
-                        m.getImgUrl(),
-                        m.getLengthInMinutes(),
-                        m.getRating()
-                )
-        ).collect(Collectors.toList());
-    }
-
-    public static String genresToString(List<Genre> genres) {
-        return genres.stream()
-                .map(Enum::name)
-                .collect(Collectors.joining(","));
-    }
-
-    public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
-        if (movieEntities == null || movieEntities.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<Movie> movies = new ArrayList<>(movieEntities.size());
-        for (MovieEntity e : movieEntities) {
-            movies.add(new Movie(
-                    e.getApiId(),
-                    e.getTitle(),
-                    e.getReleaseYear(),
-                    e.getDescription(),
-                    e.getImgUrl(),
-                    e.getLengthInMinutes(),
-                    e.getRating(),
-                    Genre.mapGenres(e.getGenres())
-            ));
-        }
-        return movies;
     }
 }

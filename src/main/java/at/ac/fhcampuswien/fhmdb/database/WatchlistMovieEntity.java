@@ -7,18 +7,19 @@ import com.j256.ormlite.table.DatabaseTable;
 public class WatchlistMovieEntity {
     @DatabaseField(generatedId = true)
     private long id;
-    @DatabaseField(canBeNull = false)
-    private String apiId;
 
-    @DatabaseField(foreign = true, columnName = "movie_id",
-            foreignAutoRefresh = true, unique = true, canBeNull = false)
+    @DatabaseField(foreign = true,
+            columnName = "movie_id",
+            foreignAutoRefresh = true,
+            unique = true,
+            canBeNull = false)
     private MovieEntity movie;
 
     public WatchlistMovieEntity() {
     }
 
-    public WatchlistMovieEntity(String apiId) {
-        this.apiId = apiId;
+    public WatchlistMovieEntity(MovieEntity movie) {
+        this.movie = movie;
     }
 
     public long getId() {
@@ -26,11 +27,7 @@ public class WatchlistMovieEntity {
     }
 
     public String getApiId() {
-        return apiId;
-    }
-
-    public void setApiId(String apiId) {
-        this.apiId = apiId;
+        return movie.getApiId();
     }
 
     public MovieEntity getMovie() {

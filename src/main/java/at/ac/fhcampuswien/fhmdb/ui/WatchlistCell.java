@@ -1,6 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.models.Genre;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,94 +12,99 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class WatchlistCell extends ListCell<MovieEntity> {
     private final Label title = new Label();
     private final Label description = new Label();
     private final Label genre = new Label();
-
     private final JFXButton detailBtn = new JFXButton("Show Details");
     private final JFXButton removeBtn = new JFXButton("Remove");
-
-    private final HBox header = new HBox(10, title, detailBtn, removeBtn);
-    private final VBox layout = new VBox(10, header, description, genre);
-
-    private final VBox detailsPane = new VBox(5);
-    private final Label releaseYearLabel = new Label();
-    private final Label lengthLabel = new Label();
-    private final Label ratingLabel = new Label();
-
+    private final HBox header = new HBox(title, detailBtn, removeBtn);
+    private final VBox layout = new VBox(header, description, genre);
     private boolean collapsedDetails = true;
 
-    public WatchlistCell(ClickEventHandler<MovieEntity> removeFromWatchlistClick) {
+    public WatchlistCell(ClickEventHandler removeFromWatchlistClick) {
         super();
-        detailBtn.getStyleClass().add("text-yellow");
-        removeBtn.getStyleClass().add("text-yellow");
         detailBtn.setStyle("-fx-background-color: #f5c518;");
-        removeBtn.setStyle("-fx-background-color: #f5c518;");
         HBox.setMargin(detailBtn, new Insets(0, 10, 0, 10));
-
+        removeBtn.setStyle("-fx-background-color: #f5c518;");
         title.getStyleClass().add("text-yellow");
         description.getStyleClass().add("text-white");
         genre.getStyleClass().add("text-white");
-        releaseYearLabel.getStyleClass().add("text-white");
-        lengthLabel.getStyleClass().add("text-white");
-        ratingLabel.getStyleClass().add("text-white");
         genre.setStyle("-fx-font-style: italic");
-
-        title.setFont(Font.font(20));
-        description.setWrapText(true);
-        description.maxWidthProperty().bind(widthProperty().subtract(30));
+        layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
         header.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(title, Priority.ALWAYS);
+        HBox.setHgrow(detailBtn, Priority.ALWAYS);
+        title.setMaxWidth(Double.MAX_VALUE);
+
+        title.getFont();
+        title.fontProperty().set(Font.font(20));
+        description.setWrapText(true);
         layout.setPadding(new Insets(10));
-        layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
-        detailsPane.getChildren().addAll(releaseYearLabel, ratingLabel, lengthLabel);
+        detailBtn.setOnMouseClicked(mouseEvent -> {
+            if (collapsedDetails) {
+                layout.getChildren().add(getDetails());
+                collapsedDetails = false;
+                detailBtn.setText("Hide Details");
+            } else {
+                layout.getChildren().remove(3);
+                collapsedDetails = true;
+                detailBtn.setText("Show Details");
+            }
+            setGraphic(layout);
+        });
 
-        detailBtn.setOnMouseClicked(event -> toggleDetails());
-        removeBtn.setOnMouseClicked(event -> removeFromWatchlistClick.onClick(getItem()));
+        removeBtn.setOnMouseClicked(mouseEvent -> {
+            removeFromWatchlistClick.onClick(getItem());
+        });
     }
 
-    private void toggleDetails() {
-        if (collapsedDetails) {
-            layout.getChildren().add(detailsPane);
-            detailBtn.setText("Hide Details");
-        } else {
-            layout.getChildren().remove(detailsPane);
-            detailBtn.setText("Show Details");
-        }
-        collapsedDetails = !collapsedDetails;
+    private VBox getDetails() {
+        VBox details = new VBox();
+
+        Label releaseYear = new Label("Release Year: " + getItem().getReleaseYear());
+        Label length = new Label("Length: " + getItem().getLengthInMinutes() + " minutes");
+        Label rating = new Label("Rating: " + getItem().getRating());
+
+        releaseYear.getStyleClass().add("text-white");
+        length.getStyleClass().add("text-white");
+        rating.getStyleClass().add("text-white");
+
+        details.getChildren().add(releaseYear);
+        details.getChildren().add(rating);
+        details.getChildren().add(length);
+
+
+        return details;
     }
 
     @Override
-    protected void updateItem(MovieEntity movie, boolean empty) {
-        super.updateItem(movie, empty);
-        if (empty || movie == null) {
-            setText(null);
+    protected void updateItem(MovieEntity movieEntity, boolean empty) {
+        super.updateItem(movieEntity, empty);
+
+        if (empty || movieEntity == null) {
             setGraphic(null);
+            setText(null);
         } else {
-            collapsedDetails = true;
-            detailBtn.setText("Show Details");
-            layout.getChildren().remove(detailsPane);
+            this.getStyleClass().add("movie-cell");
 
-            title.setText(movie.getTitle());
+            title.setText(movieEntity.getTitle());
             description.setText(
-                    movie.getDescription() != null ? movie.getDescription() : "No description available"
-            );
-            /*
-            genre.setText(
-                    Optional.ofNullable(movie.getGenres())
-                            .map(genList -> String.join(", ", genList.stream().map(Object::toString).toArray(String[]::new)))
-                            .orElse("Unknown genre")
+                    movieEntity.getDescription() != null
+                            ? movieEntity.getDescription()
+                            : "No description available"
             );
 
-             */
+            description.setMaxWidth(this.getScene().getWidth() - 30);
 
-            releaseYearLabel.setText("Release Year: " + movie.getReleaseYear());
-            ratingLabel.setText("Rating: " + movie.getRating());
-            lengthLabel.setText("Length: " + movie.getLengthInMinutes() + " minutes");
+            String genres = Genre.mapGenres(movieEntity.getGenres())
+                    .stream()
+                    .map(Enum::toString)
+                    .collect(Collectors.joining(", "));
+            genre.setText(genres);
 
             setGraphic(layout);
         }

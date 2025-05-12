@@ -8,81 +8,95 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MovieCell extends ListCell<Movie> {
     private final Label title = new Label();
-    private final Label description = new Label();
+    private final Label detail = new Label();
     private final Label genre = new Label();
-
     private final JFXButton detailBtn = new JFXButton("Show Details");
     private final JFXButton watchlistBtn = new JFXButton("To Watchlist");
-
-    private final HBox header = new HBox(10, title, detailBtn, watchlistBtn);
-    private final VBox layout = new VBox(10, header, description, genre);
-
-    private final VBox detailsPane = new VBox(5);
-    private final Label releaseYearLabel = new Label();
-    private final Label lengthLabel = new Label();
-    private final Label ratingLabel = new Label();
-    private final Label directorsLabel = new Label();
-    private final Label writersLabel = new Label();
-    private final Label mainCastLabel = new Label();
-
+    private final HBox header = new HBox(title, detailBtn, watchlistBtn);
+    private final VBox layout = new VBox(header, detail, genre);
     private boolean collapsedDetails = true;
 
     public MovieCell(ClickEventHandler<Movie> addToWatchlistClicked) {
         super();
-        detailBtn.getStyleClass().add("text-yellow");
-        watchlistBtn.getStyleClass().add("text-yellow");
         detailBtn.setStyle("-fx-background-color: #f5c518;");
+        HBox.setMargin(detailBtn, new Insets(0, 10, 0, 10));
         watchlistBtn.setStyle("-fx-background-color: #f5c518;");
-
         title.getStyleClass().add("text-yellow");
-        description.getStyleClass().add("text-white");
+        detail.getStyleClass().add("text-white");
         genre.getStyleClass().add("text-white");
-        releaseYearLabel.getStyleClass().add("text-white");
-        lengthLabel.getStyleClass().add("text-white");
-        ratingLabel.getStyleClass().add("text-white");
-        directorsLabel.getStyleClass().add("text-white");
-        writersLabel.getStyleClass().add("text-white");
-        mainCastLabel.getStyleClass().add("text-white");
-
-        title.setFont(title.getFont().font(20));
-        description.setWrapText(true);
-        description.maxWidthProperty().bind(widthProperty().subtract(30));
-        genre.setStyle("-fx-font-style: italic;");
-
+        genre.setStyle("-fx-font-style: italic");
+        layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
         header.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(title, Priority.ALWAYS);
+        HBox.setHgrow(detailBtn, Priority.ALWAYS);
+        title.setMaxWidth(Double.MAX_VALUE);
+
+        title.getFont();
+        title.fontProperty().set(Font.font(20));
+        detail.setWrapText(true);
         layout.setPadding(new Insets(10));
-        layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
-        detailsPane.getChildren().addAll(
-                releaseYearLabel,
-                ratingLabel,
-                lengthLabel,
-                directorsLabel,
-                writersLabel,
-                mainCastLabel
-        );
-        detailsPane.getStyleClass().add("details-pane");
+        detailBtn.setOnMouseClicked(mouseEvent -> {
+            if (collapsedDetails) {
+                layout.getChildren().add(getDetails());
+                collapsedDetails = false;
+                detailBtn.setText("Hide Details");
+            } else {
+                layout.getChildren().remove(3);
+                collapsedDetails = true;
+                detailBtn.setText("Show Details");
+            }
+            setGraphic(layout);
+        });
 
-        detailBtn.setOnMouseClicked(e -> toggleDetails());
-        watchlistBtn.setOnMouseClicked(e -> addToWatchlistClicked.onClick(getItem()));
+        watchlistBtn.setOnMouseClicked(mouseEvent -> {
+            addToWatchlistClicked.onClick(getItem());
+        });
     }
 
-    private void toggleDetails() {
-        if (collapsedDetails) {
-            layout.getChildren().add(detailsPane);
-            detailBtn.setText("Hide Details");
-        } else {
-            layout.getChildren().remove(detailsPane);
-            detailBtn.setText("Show Details");
-        }
-        collapsedDetails = !collapsedDetails;
+    private VBox getDetails() {
+        VBox details = new VBox();
+        Label releaseYear = new Label("Release Year: " + getItem().getReleaseYear());
+        Label length = new Label("Length: " + getItem().getLengthInMinutes() + " minutes");
+        Label rating = new Label("Rating: " + getItem().getRating() + "/10");
+
+        List<String> dirs = getItem().getDirectors() != null
+                ? getItem().getDirectors()
+                : Collections.emptyList();
+        Label directors = new Label("Directors: " + String.join(", ", dirs));
+
+        List<String> writs = getItem().getWriters() != null
+                ? getItem().getWriters()
+                : Collections.emptyList();
+        Label writers = new Label("Writers: " + String.join(", ", writs));
+
+        List<String> cast = getItem().getMainCast() != null
+                ? getItem().getMainCast()
+                : Collections.emptyList();
+        Label mainCast = new Label("Main Cast: " + String.join(", ", cast));
+
+        releaseYear.getStyleClass().add("text-white");
+        length.getStyleClass().add("text-white");
+        rating.getStyleClass().add("text-white");
+        directors.getStyleClass().add("text-white");
+        writers.getStyleClass().add("text-white");
+        mainCast.getStyleClass().add("text-white");
+
+        details.getChildren().add(releaseYear);
+        details.getChildren().add(rating);
+        details.getChildren().add(length);
+        details.getChildren().add(directors);
+        details.getChildren().add(writers);
+        details.getChildren().add(mainCast);
+        return details;
     }
 
     @Override
@@ -90,28 +104,24 @@ public class MovieCell extends ListCell<Movie> {
         super.updateItem(movie, empty);
 
         if (empty || movie == null) {
-            setText(null);
             setGraphic(null);
+            setText(null);
         } else {
-            collapsedDetails = true;
-            detailBtn.setText("Show Details");
-            layout.getChildren().remove(detailsPane);
-
+            this.getStyleClass().add("movie-cell");
             title.setText(movie.getTitle());
-            description.setText(
-                    Optional.ofNullable(movie.getDescription()).orElse("No description available")
+            detail.setText(
+                    movie.getDescription() != null
+                            ? movie.getDescription()
+                            : "No description available"
             );
-            String genres = movie.getGenres().stream()
-                    .map(Enum::name)
+
+            String genres = movie.getGenres()
+                    .stream()
+                    .map(Enum::toString)
                     .collect(Collectors.joining(", "));
             genre.setText(genres);
 
-            releaseYearLabel.setText("Release Year: " + movie.getReleaseYear());
-            ratingLabel.setText("Rating: " + movie.getRating() + "/10");
-            lengthLabel.setText("Length: " + movie.getLengthInMinutes() + " minutes");
-            directorsLabel.setText("Directors: " + String.join(", ", movie.getDirectors()));
-            writersLabel.setText("Writers: " + String.join(", ", movie.getWriters()));
-            mainCastLabel.setText("Main Cast: " + String.join(", ", movie.getMainCast()));
+            detail.setMaxWidth(this.getScene().getWidth() - 30);
 
             setGraphic(layout);
         }
