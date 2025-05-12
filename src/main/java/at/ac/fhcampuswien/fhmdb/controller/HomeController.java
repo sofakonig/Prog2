@@ -102,7 +102,6 @@ public class HomeController implements Initializable {
 
         List<Movie> res = movieRestClient.getByQuery(q, g, y, r);
         observableMovies.setAll(res);
-        writeDB(res);
     }
 
     private void resetFilters(SortedList<Movie> sorted) {
