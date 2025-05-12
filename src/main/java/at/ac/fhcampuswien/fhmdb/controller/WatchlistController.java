@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 
 import at.ac.fhcampuswien.fhmdb.database.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.repository.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.ui.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.ui.UserDialog;
@@ -19,20 +20,21 @@ import java.util.ResourceBundle;
 
 public class WatchlistController implements Initializable {
 
-    @FXML private JFXListView<MovieEntity> watchlistView;
+    @FXML
+    private JFXListView<MovieEntity> watchlistView;
 
-    private final WatchlistRepository watchlistRepo = new WatchlistRepository();
+    private WatchlistRepository watchlistRepo;
     private final ObservableList<MovieEntity> observableWatchlist = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        watchlistView.setPlaceholder(new Label("Watchlist is empty"));
-        watchlistView.setItems(observableWatchlist);
-        watchlistView.setCellFactory(list -> new WatchlistCell(onRemoveFromWatchlistClicked));
-
         try {
-            List<MovieEntity> movies = watchlistRepo.getAll();
-            observableWatchlist.setAll(movies);
+            watchlistRepo = new WatchlistRepository();
+            watchlistView.setPlaceholder(new Label("Watchlist is empty"));
+            watchlistView.setItems(observableWatchlist);
+            watchlistView.setCellFactory(list -> new WatchlistCell(onRemoveFromWatchlistClicked));
+            List<WatchlistMovieEntity> movies = watchlistRepo.getAll();
+            // observableWatchlist.setAll(movies);
         } catch (DatabaseException e) {
             new UserDialog("Datenbankfehler", "Konnte Watchlist nicht laden").show();
         }

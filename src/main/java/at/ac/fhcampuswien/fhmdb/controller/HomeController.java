@@ -27,17 +27,25 @@ import java.util.stream.Collectors;
 public class HomeController implements Initializable {
 
     private final MovieRestClient movieRestClient = new MovieRestClient();
-    private final WatchlistRepository watchlistRepo;
+    private WatchlistRepository watchlistRepo;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
-    @FXML private JFXButton searchBtn;
-    @FXML private TextField searchField;
-    @FXML private JFXListView<Movie> movieListView;
-    @FXML private JFXComboBox<String> genreComboBox;
-    @FXML private JFXComboBox<Integer> releaseYearBox;
-    @FXML private JFXComboBox<Double> ratingBox;
-    @FXML private JFXButton sortBtn;
-    @FXML private JFXButton clearBtn;
+    @FXML
+    private JFXButton searchBtn;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private JFXListView<Movie> movieListView;
+    @FXML
+    private JFXComboBox<String> genreComboBox;
+    @FXML
+    private JFXComboBox<Integer> releaseYearBox;
+    @FXML
+    private JFXComboBox<Double> ratingBox;
+    @FXML
+    private JFXButton sortBtn;
+    @FXML
+    private JFXButton clearBtn;
 
     private boolean isAscending = false;
 
@@ -52,6 +60,11 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            watchlistRepo = new WatchlistRepository();
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
         List<Movie> movies = readDB();
         if (movies.isEmpty()) {
             movies = movieRestClient.getAllMovies();

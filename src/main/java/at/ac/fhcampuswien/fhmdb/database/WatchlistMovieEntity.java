@@ -10,6 +10,10 @@ public class WatchlistMovieEntity {
     @DatabaseField(canBeNull = false)
     private String apiId;
 
+    @DatabaseField(foreign = true, columnName = "movie_id",
+            foreignAutoRefresh = true, unique = true, canBeNull = false)
+    private MovieEntity movie;
+
     public WatchlistMovieEntity() {
     }
 
@@ -27,5 +31,13 @@ public class WatchlistMovieEntity {
 
     public void setApiId(String apiId) {
         this.apiId = apiId;
+    }
+
+    public MovieEntity getMovie() {
+        return movie;
+    }
+
+    public void setMovie(MovieEntity movie) {
+        this.movie = movie;
     }
 }

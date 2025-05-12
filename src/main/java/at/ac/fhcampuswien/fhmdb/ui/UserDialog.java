@@ -7,7 +7,7 @@ import javafx.scene.control.Dialog;
 public class UserDialog {
     Dialog<String> dialog;
 
-    public UserDialog(String title, String msg){
+    public UserDialog(String title, String msg) {
         dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setContentText(msg);

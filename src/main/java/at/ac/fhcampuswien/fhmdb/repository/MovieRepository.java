@@ -12,7 +12,6 @@ import java.util.List;
 public class MovieRepository {
 
     private final Dao<MovieEntity, Long> dao;
-    private static final WatchlistRepository instance;
 
 
     public MovieRepository() throws DatabaseException {
@@ -21,10 +20,6 @@ public class MovieRepository {
         } catch (Exception e) {
             throw new DatabaseException(e.getMessage());
         }
-    }
-
-    public static WatchlistRepository getInstance() {
-        return instance;
     }
 
     public List<MovieEntity> getAll() throws DatabaseException {
