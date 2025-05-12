@@ -1,5 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Genre {
     ACTION,
     ADVENTURE,
@@ -20,5 +23,9 @@ public enum Genre {
     SPORT,
     THRILLER,
     WAR,
-    WESTERN
+    WESTERN;
+
+    public static List<Genre> mapGenres(String genres) {
+        return Arrays.stream(genres.split(",")).map(Genre::valueOf).toList();
+    }
 }

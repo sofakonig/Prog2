@@ -20,6 +20,18 @@ public class Movie {
     }
 
     public Movie(String id, String title, int releaseYear, String description, String imgUrl, int lengthInMinutes,
+                 double rating, List<Genre> genres) {
+        this.id = id;
+        this.title = title;
+        this.releaseYear = releaseYear;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.lengthInMinutes = lengthInMinutes;
+        this.rating = rating;
+        this.genres = genres;
+    }
+
+    public Movie(String id, String title, int releaseYear, String description, String imgUrl, int lengthInMinutes,
                  double rating, List<Genre> genres, List<String> directors, List<String> mainCast, List<String> writers) {
         this.id = id;
         this.title = title;

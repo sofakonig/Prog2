@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.fhmdb;
+package at.ac.fhcampuswien.fhmdb.client;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
@@ -34,10 +34,10 @@ public class MovieRestClient {
             if (response.isSuccessful() && response.body() != null) {
                 return gson.fromJson(response.body().string(), type);
             } else {
-                throw new IOException("Request failed: " + response);
+                throw new MovieApiException("Request failed: " + response);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MovieApiException("Error", e);
         }
     }
 
