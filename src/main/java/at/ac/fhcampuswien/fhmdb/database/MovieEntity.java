@@ -105,71 +105,35 @@ public class MovieEntity {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getApiId() {
         return apiId;
-    }
-
-    public void setApiId(String apiId) {
-        this.apiId = apiId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getGenres() {
         return genres;
     }
 
-    public void setGenres(String genres) {
-        this.genres = genres;
-    }
-
     public int getReleaseYear() {
         return releaseYear;
-    }
-
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
     }
 
     public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
     public int getLengthInMinutes() {
         return lengthInMinutes;
     }
 
-    public void setLengthInMinutes(int lengthInMinutes) {
-        this.lengthInMinutes = lengthInMinutes;
-    }
-
     public double getRating() {
         return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
     }
 }

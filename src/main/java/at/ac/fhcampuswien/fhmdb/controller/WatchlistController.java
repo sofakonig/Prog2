@@ -25,6 +25,7 @@ public class WatchlistController implements Initializable {
     @FXML
     private JFXListView<MovieEntity> watchlistView;
     private WatchlistRepository watchlistRepo;
+
     private final ClickEventHandler<MovieEntity> onRemoveFromWatchlistClicked = movie -> {
         try {
             watchlistRepo.remove(movie);

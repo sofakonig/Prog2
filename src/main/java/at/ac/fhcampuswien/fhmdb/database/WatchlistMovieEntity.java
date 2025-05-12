@@ -22,14 +22,6 @@ public class WatchlistMovieEntity {
         this.movie = movie;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getApiId() {
-        return movie.getApiId();
-    }
-
     public MovieEntity getMovie() {
         return movie;
     }

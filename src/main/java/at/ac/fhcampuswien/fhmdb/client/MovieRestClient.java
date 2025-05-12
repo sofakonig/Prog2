@@ -34,10 +34,10 @@ public class MovieRestClient {
             if (response.isSuccessful() && response.body() != null) {
                 return gson.fromJson(response.body().string(), type);
             } else {
-                throw new MovieApiException("Request failed: " + response);
+                throw new MovieRestClientException("Request failed: " + response);
             }
         } catch (IOException e) {
-            throw new MovieApiException("Error", e);
+            throw new MovieRestClientException("Error", e);
         }
     }
 

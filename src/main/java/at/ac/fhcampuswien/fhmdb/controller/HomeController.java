@@ -29,17 +29,7 @@ public class HomeController implements Initializable {
     private final MovieRestClient movieRestClient = new MovieRestClient();
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
     private WatchlistRepository watchlistRepo;
-    private final ClickEventHandler<Movie> onAddToWatchlistClicked = movie -> {
-        try {
-            MovieEntity entity = new MovieRepository().get(movie.getId());
-            watchlistRepo.add(entity);
-            new UserDialog("Erfolg", "'" + movie.getTitle() + "' wurde zur Watchlist hinzugefügt")
-                    .show();
-        } catch (DatabaseException e) {
-            new UserDialog("Datenbankfehler", "Konnte Film nicht zur Watchlist hinzufügen")
-                    .show();
-        }
-    };
+
     @FXML
     private JFXButton searchBtn;
     @FXML
@@ -56,7 +46,20 @@ public class HomeController implements Initializable {
     private JFXButton sortBtn;
     @FXML
     private JFXButton clearBtn;
+
     private boolean isAscending = false;
+
+    private final ClickEventHandler<Movie> onAddToWatchlistClicked = movie -> {
+        try {
+            MovieEntity entity = new MovieRepository().get(movie.getId());
+            watchlistRepo.add(entity);
+            new UserDialog("Erfolg", "'" + movie.getTitle() + "' wurde zur Watchlist hinzugefügt")
+                    .show();
+        } catch (DatabaseException e) {
+            new UserDialog("Datenbankfehler", "Konnte Film nicht zur Watchlist hinzufügen")
+                    .show();
+        }
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

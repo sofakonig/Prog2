@@ -9,8 +9,4 @@ public class DatabaseException extends Exception {
         super(message);
     }
 
-    public DatabaseException(Exception e) {
-        super(e);
-    }
-
 }

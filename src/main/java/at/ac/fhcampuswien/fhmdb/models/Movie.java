@@ -50,10 +50,6 @@ public class Movie {
         return lengthInMinutes;
     }
 
-    public void setLengthInMinutes(int lengthInMinutes) {
-        this.lengthInMinutes = lengthInMinutes;
-    }
-
     public String getId() {
         return id;
     }

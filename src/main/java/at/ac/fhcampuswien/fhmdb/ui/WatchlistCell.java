@@ -24,7 +24,7 @@ public class WatchlistCell extends ListCell<MovieEntity> {
     private final VBox layout = new VBox(header, description, genre);
     private boolean collapsedDetails = true;
 
-    public WatchlistCell(ClickEventHandler removeFromWatchlistClick) {
+    public WatchlistCell(ClickEventHandler<MovieEntity> removeFromWatchlistClick) {
         super();
         detailBtn.setStyle("-fx-background-color: #f5c518;");
         HBox.setMargin(detailBtn, new Insets(0, 10, 0, 10));
